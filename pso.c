@@ -12,6 +12,7 @@ int main(void) {
     const clock_t start_time = clock();
 
     srand(time(NULL));
+
     const int iterations = 100;
     const int number_of_particles = 81;
 
@@ -50,6 +51,7 @@ int main(void) {
 for (int counter = 0; counter < iterations; counter++) {
     // Find the best value
 
+
     for (int i = 0; i < number_of_particles; i++) {
         float current_norm = position[2][i];
         if (current_norm < best_value) {
@@ -62,24 +64,26 @@ for (int counter = 0; counter < iterations; counter++) {
 
     for (int i = 0; i < number_of_particles; i++) {
         if(position[2][i] < pbest_position[2][i]) {
-            pbest_position[0][0] = position[0][i];
-            pbest_position[1][0] = position[1][i];
-            pbest_position[2][0] = position[2][i];
+            pbest_position[0][i] = position[0][i];
+            pbest_position[1][i] = position[1][i];
+            pbest_position[2][i] = position[2][i];
         }
     }
 
     for (int i = 0; i < number_of_particles; i++) {
+
+
 
         float r1 = (float)rand() / (float)32767;
         float r2 = (float)rand() / (float)32767;
 
         //Update velocity
         velocity_vector[0][i] =
-            inertia * velocity_vector[0][i] + personal_weight_1 * r1 * (pbest_position[0][0] - position[0][i])
+            inertia * velocity_vector[0][i] + personal_weight_1 * r1 * (pbest_position[0][i] - position[0][i])
             + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
 
         velocity_vector[1][i] =
-            inertia * velocity_vector[1][i] + personal_weight_1 * r1 * (pbest_position[1][0] - position[1][i])
+            inertia * velocity_vector[1][i] + personal_weight_1 * r1 * (pbest_position[1][i] - position[1][i])
             + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
 
         // Update position
@@ -111,4 +115,7 @@ for (int counter = 0; counter < iterations; counter++) {
     return 0;
 
 }
+
+
+
 
