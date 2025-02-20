@@ -44,7 +44,7 @@ int main(void) {
     // Global best initialization
     float best_value = 1000000000000000;
     float gbest_position[3][1] = {0};
-    float pbest_position[3][1] = {0};
+    float pbest_position[3][81] = {0};
 
 for (int counter = 0; counter < iterations; counter++) {
     // Find the best value
@@ -60,7 +60,7 @@ for (int counter = 0; counter < iterations; counter++) {
     }
 
     for (int i = 0; i < number_of_particles; i++) {
-        if(position[2][i] < pbest_position[2][0]) {
+        if(position[2][i] < pbest_position[2][i]) {
             pbest_position[0][0] = position[0][i];
             pbest_position[1][0] = position[1][i];
             pbest_position[2][0] = position[2][i];
