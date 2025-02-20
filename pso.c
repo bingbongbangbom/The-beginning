@@ -3,20 +3,20 @@
 #include <time.h>
 #include <math.h>
 
-// Function definition (moved outside main)
+// Function definition
 float function(float a, float b) {
     return ((20 + (a)*(a) - 10 * cos(2 * M_PI * (a))) + b*b - 10 * cos(2 * M_PI * b));
 }
 
 int main(void) {
-    clock_t start_time = clock();
+    const clock_t start_time = clock();
 
     srand(time(NULL));
     const int iterations = 100;
     const int number_of_particles = 81;
 
     float inertia = 0.7;
-    float personal_weight_1 = 1.5;
+    float personal_weight_1 = 1.6;
     float global_weight_1 = 1.5;
 
     //float convergance_BIG_CHUNGUS[3][81] = {0}; // Used for plotting if i learn that
@@ -25,6 +25,7 @@ int main(void) {
     float velocity_vector[3][81] = {0};
 
     // Initialize particle positions OBS particles inside Area: -81 < x 81, -81 < y <81
+    //maby good idea to randomize the position a little bit with allmost, or fully periodic functions
     int i = 0;
     for (int x = 0; x < 9; x++) {
         for (int y = 1; y <= 9; y++) {
@@ -73,11 +74,13 @@ for (int counter = 0; counter < iterations; counter++) {
         float r2 = (float)rand() / (float)32767;
 
         //Update velocity
-        velocity_vector[0][i] = inertia * velocity_vector[0][i] + personal_weight_1 * r1 * (pbest_position[0][0] - position[0][i])
-        + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
+        velocity_vector[0][i] =
+            inertia * velocity_vector[0][i] + personal_weight_1 * r1 * (pbest_position[0][0] - position[0][i])
+            + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
 
-        velocity_vector[1][i] = inertia * velocity_vector[1][i] + personal_weight_1 * r1 * (pbest_position[1][0] - position[1][i])
-        + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
+        velocity_vector[1][i] =
+            inertia * velocity_vector[1][i] + personal_weight_1 * r1 * (pbest_position[1][0] - position[1][i])
+            + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
 
         // Update position
         position[0][i] += velocity_vector[0][i];
@@ -93,10 +96,10 @@ for (int counter = 0; counter < iterations; counter++) {
 
     //printf("Iterations: %d\n", counter+1);
 }
-    clock_t end_time = clock();
+    const clock_t end_time = clock();
 
     // Calculate the elapsed time in seconds
-    double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    const float elapsed_time = (float)(end_time - start_time) / CLOCKS_PER_SEC;
     // Print best position
     printf("Best Position: (%.16f, %.16f, %.16f) \n",
     gbest_position[0][0], gbest_position[1][0], gbest_position[2][0]) ;
@@ -106,5 +109,6 @@ for (int counter = 0; counter < iterations; counter++) {
     printf("Iterations: %d\n", iterations);
     printf("Runtime: %f", elapsed_time);
     return 0;
+
 }
 
