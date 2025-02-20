@@ -13,7 +13,7 @@ int main(void) {
 
     srand(time(NULL));
 
-    const int iterations = 100;
+    const int iterations = 1000;
     const int number_of_particles = 81;
 
     float inertia = 0.7;
@@ -120,8 +120,6 @@ for (int counter = 0; counter < iterations; counter++) {
     return 0;
 
 }
-
-
 
 
 
