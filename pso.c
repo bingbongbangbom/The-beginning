@@ -17,36 +17,41 @@ int main(void) {
     const int number_of_particles = 81;
 
     float inertia = 0.7;
-    float personal_weight_1 = 1.6;
-    float global_weight_1 = 1.5;
+    float personal_weight_1 = 1.5;
+    float global_weight_1 = 1.2;
 
     //float convergance_BIG_CHUNGUS[3][81] = {0}; // Used for plotting if i learn that
 
     float position[3][81] = {0};
     float velocity_vector[3][81] = {0};
+    // Global best initialization
+    float best_value = INFINITY;
+    float gbest_position[3][1] = {0};
+    // personal
+    float pbest_position[3][81] = {0};
+
 
     // Initialize particle positions OBS particles inside Area: -81 < x 81, -81 < y <81
     //maby good idea to randomize the position a little bit with allmost, or fully periodic functions
     int i = 0;
     for (int x = 0; x < 9; x++) {
         for (int y = 1; y <= 9; y++) {
-            float x_val = x * 18 - 81;
-            float y_val = y * 18 - 81;
-            float z_val = function(x_val, y_val);
+            float x_val = (float) (x * 18 - 81);
+            float y_val = (float) (y * 18 - 81);
+            float z_val = (float) (function(x_val, y_val));
 
             // Assign values to position array
             position[0][i] = x_val;
             position[1][i] = y_val;
             position[2][i] = z_val;
 
+            pbest_position[0][i] = x_val;
+            pbest_position[1][i] = y_val;
+            pbest_position[2][i] = z_val;
             i++;  // Increment index
         }
     }
 
-    // Global best initialization
-    float best_value = 1000000000000000;
-    float gbest_position[3][1] = {0};
-    float pbest_position[3][81] = {0};
 
 for (int counter = 0; counter < iterations; counter++) {
     // Find the best value
@@ -74,8 +79,8 @@ for (int counter = 0; counter < iterations; counter++) {
 
 
 
-        float r1 = (float)rand() / (float)32767;
-        float r2 = (float)rand() / (float)32767;
+        float r1 = (float)rand() / (float)RAND_MAX;
+        float r2 = (float)rand() / (float)RAND_MAX;
 
         //Update velocity
         velocity_vector[0][i] =
@@ -84,7 +89,7 @@ for (int counter = 0; counter < iterations; counter++) {
 
         velocity_vector[1][i] =
             inertia * velocity_vector[1][i] + personal_weight_1 * r1 * (pbest_position[1][i] - position[1][i])
-            + global_weight_1 * r2 * (gbest_position[0][0] - position[0][i]);
+            + global_weight_1 * r2 * (gbest_position[1][0] - position[1][i]);
 
         // Update position
         position[0][i] += velocity_vector[0][i];
@@ -115,6 +120,8 @@ for (int counter = 0; counter < iterations; counter++) {
     return 0;
 
 }
+
+
 
 
 
